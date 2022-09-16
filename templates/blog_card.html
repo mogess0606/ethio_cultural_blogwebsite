@@ -1,0 +1,53 @@
+{% load static %}
+  
+      <div>
+        <img
+          src="{{blog.banner.url}}"
+          class="img-fluid"
+          alt="Responsive image"
+        />
+      </div>
+      <div class="card-body">
+        <span class="float-lg-start" >{{blog.category.title}}</span> 
+        <a class="float-lg-center"  href="{% url 'blog_details' blog.slug %}" >{{blog.title}}</a>  
+        <br />  
+        <span style="font-size: 10px" 
+          >By : {{blog.user.username}}</span
+        >
+        <span style="font-size: 10px">{{blog.created_date}}</span>
+        <span style="font-size: 10px"
+          >{{blog.blog_comments.all.count}} Comments</span
+        >
+        <hr />
+
+        <p style="text-align: justify">{{blog.description|truncatewords:50}}</p>
+      </div>
+
+      <div class="row"  style="font-size:11px">
+        <div class="col-6">
+          <ul class="post-tags float-lg-start">
+            {% if blog.tags.all.count > 0 %}
+            <!-- start page title -->
+            {% for tags in blog.tags.all %}
+            <li class="fa fa-tags" >
+              &nbsp; <a href="#">{{tags.title }}</a>
+            </li>
+            {% endfor %} {% else %} None {% endif %}
+          </ul>
+        </div>
+        <div class="col-6">
+           <ul class="post-share">
+              <span id="like_count">{{blog.likes.count}}</span>
+              {% if liked_by %}
+              <a class="fa fa-heart" id="like-icon" data-blog="{{blog.id}}" href="javascript:void(0);" ></a>
+                {% else %}
+                  <a class="fa fa-heart empty-heart" href="javascript:void(0);" id="like-icon" data-blog="{{blog.id}}" ></a
+              >
+              {% endif %}
+              <li class="fa fa-share-alt"></li>
+              <a href="">&nbsp;&nbsp;Facebook</a>
+              <a href="">&nbsp;&nbsp;Twitter</a>
+            </ul>
+        </div>
+      </div>
+    </div>

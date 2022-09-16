@@ -1,0 +1,39 @@
+{% extends 'base.html'%}
+<!-- COMMENTS TO LOAD STATIC FILES -->
+{% load static %}
+<!-- COMMENTS FOR TIRLES -->
+{% block title %} {% endblock title %}
+<!-- COMMENTS TO LOAD CONTENTS -->
+{% block content %}
+<!-- COMMENTS CONTENTS DETAILS -->
+
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-xl-9 col-sm-6">
+                <div class="col-md-12">
+                    <h4 class="text-center">{{blogs.count}}  Results  Found for Search of {{search_key}}
+                </div>
+            <div class="row">
+                {% for blog in blogs %}
+                <div class="col-xl-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center">
+                            {% include 'blog_card.html' %}
+                            <hr class="my-4" />
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}   
+            </div>
+        </div>
+        <!-- start page title -->
+        {% include 'right_sidebar.html' with blogs=recent_blogs %}
+        <!-- start page title -->
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,247 @@
+{% extends 'base.html'%}
+<!-- COMMENTS TO LOAD STATIC FILES -->
+{% load static %}
+<!-- COMMENTS FOR TIRLES -->
+{% block title %} {% endblock title %}
+<!-- COMMENTS TO LOAD CONTENTS -->
+{% block content %}
+<!-- COMMENTS CONTENTS DETAILS -->
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-8">
+          <div class="card">
+            <div class="card-body">
+              <div class="carousel-inner" role="listbox">
+                <div class="carousel-item active">
+                  <img
+                    class="d-block img-fluid"
+                    src="{{blog.banner.url}}"
+                    alt="First slide"
+                  />
+                  <br />
+                  <a href="javascript:void(0);">{{blog.title}}</a>
+                  <br />
+                  <span style="font-size: 10px"
+                    >By : {{blog.user.username}}</span
+                  >
+                  <span style="font-size: 10px">{{blog.created_date}}</span>
+                  <a href="javascript:void(0);" style="font-size: 10px"
+                    >{{blog.blog_comments.all.count}} Comments</a
+                  >
+                  <hr />
+
+                  <p>{{blog.description}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="row" style="font-size: 11px">
+              <div class="col-6">
+                <ul class="post-tags float-lg-start">
+                  {% if blog.tags.all.count > 0 %}
+                  <!-- start page title -->
+                  {% for tags in blog.tags.all %}
+                  <li class="fa fa-tags">
+                    &nbsp; <a href="#">{{tags.title }}</a>
+                  </li>
+                  {% endfor %} {% else %} None {% endif %}
+                </ul>
+              </div>
+              {% if request.user.is_authenticated %}
+              <div class="col-6">
+                <ul class="post-share">
+                  <span id="like_count">{{blog.likes.count}}</span>
+                  {% if liked_by %}
+                  <a class="fa fa-heart" id="like-icon" data-blog="{{blog.id}}" href="javascript:void(0);" ></a>
+                    {% else %}
+                     <a class="fa fa-heart empty-heart" href="javascript:void(0);" id="like-icon" data-blog="{{blog.id}}" ></a
+                  >
+                  {% endif %}
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <li class="fa fa-share-alt"></li>
+                  <a href="">&nbsp;&nbsp;Facebook</a>
+                  <a href="">&nbsp;&nbsp;Twitter</a>
+                </ul>
+              </div>
+              {% else %}
+              <div class="col-6">
+                <ul class="post-share">
+                  <span id="like-count">{{blog.likes.count}}</span>
+                   {% if liked_by %}
+                  <a class="fa fa-heart"  href="{% url 'login' %}"></a
+                  >
+                    {% else %}
+                     <a class="fa fa-heart empty-heart" href="{% url 'login' %}"></a
+                  >
+                  {% endif %}
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <li class="fa fa-share-alt"></li>
+                  <a href="">&nbsp;&nbsp;Facebook</a>
+                  <a href="">&nbsp;&nbsp;Twitter</a>
+                </ul>
+              </div>
+              {% endif %}
+               <div class="col-12 blog-posts" style="padding:30px" >               
+                  <div class="heading">
+                    <h6>{{blog.blog_comments.all.count}} Comments</h6>
+                    <hr />
+                  </div>
+                    <ul>
+                      {% for comment in blog.blog_comments.all %}
+                         <div class="right-content">
+                            <h6   style="font-size:10px;">
+                              <img class="rounded-circle header-profile-user" src="{{comment.user.get_profile_picture}}" alt="">
+                            {{ comment.user.username }} <span> {{comment.created_date}}</span> </h6>
+                            <p>{{comment.text}}</p>
+                          <form class="submit-reply"  id="comment" action="{% url 'add_reply' blog.id comment.id %}" method="POST">
+                              {% csrf_token %}
+                              <div class="row">
+                                <div class="form-group">
+                                  <fieldset>
+                                    <textarea
+                                      class="reply-form-control"
+                                      name="text"
+                                      required=""
+                                      placeholder="Type your reply here !"
+                                    ></textarea>
+                                  </fieldset>
+                                </div>
+                                <div class="form-group my-2">
+                                  <fieldset>
+                                    {% if request.user.is_authenticated %}
+                                    <button
+                                      class="btn btn-primary btn-block reply-button float-end"
+                                      type="submit"
+                                    >
+                                      Reply
+                                    </button>
+                                    {% else %}
+                                    <a
+                                      href="{% url 'login' %}"
+                                      class="btn btn-warning btn-block float-end"
+                                      style="color: white"
+                                    >
+                                      Login to Reply</a>
+                                    {% endif%}
+                                  </fieldset>
+                                </div>
+                              </div>
+                          </form>  
+                             {% for reply in comment.comment_replies.all %}
+                          <div class="right-content" >
+                            <h6 style="font-size:10px;" >
+                              <img class="rounded-circle header-profile-user" src="{{reply.user.get_profile_picture}}" alt="">
+                            {{ reply.user.username }} <span> {{reply.created_date}}</span> </h6>
+                            <p>{{reply.text}}</p>                         
+                          </div>
+                        {% endfor %}
+                                                      
+                          </div>
+                        <hr />
+                        {% endfor %}
+                    </ul>
+                </div>
+             
+              </div>
+              
+              <div class="col-12" style="padding:30px">               
+                  <div class="heading">
+                    <h5>Your Comment</h5>
+                    <hr />
+                  </div>
+                  <form class="submit_comment my-2" id="comment" action="{% url 'blog_details' blog.slug %}" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="form-group">
+                        <fieldset>
+                          <textarea
+                            class="form-control"
+                            name="text"
+                            required=""
+                            placeholder="Type your comment here !"
+                          ></textarea>
+                        </fieldset>
+                      </div>
+                      <div class="form-group my-2">
+                        <fieldset>
+                          {% if request.user.is_authenticated %}
+                          <button
+                            class="btn btn-info btn-block float-end"
+                            type="submit"
+                          >
+                            <li class="fa fa-check"></li>
+                            submit
+                          </button>
+                          {% else %}
+                           <a
+                    href="{% url 'login' %}"
+                    class="btn btn-warning btn-block float-end"
+                    style="color: white"
+                  >
+                    Login to comment</a>
+                          {% endif%}
+                        </fieldset>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+             
+              </div>
+          </div>
+          <!-- end col -->
+          <div class="col-xl-3 col-sm-6" style="width: 250px">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <h4 class="form-label h5">Realated Post</h4>
+                  <hr />
+                  {% for blog in related_blogs %}
+                  <div class="d-flex flex-wrap gap-3">
+                    <div class="form-check mb-2">
+                      <a href="{% url 'blog_details' blog.slug %}"
+                        >{{blog.title}}</a
+                      >
+                      <br />
+                      <span style="font-size: 10px">{{blog.created_date}}</span>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+
+                <div class="row">
+                  <h4 class="form-label h5">Category</h4>
+                  <hr />
+                  {% for category in Categories %}
+                  <div class="d-flex flex-wrap gap-3">
+                    <div class="form-check mb-2">
+                      <a href="{% url 'category_blogs' category.slug %}"
+                        >{{category.title}}</a
+                      >
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+
+                <div class="row">
+                  <h4 class="form-label h5">Tags</h4>
+                  <hr />
+                  {% for tag in tags %}
+                  <div class="d-flex flex-wrap gap-3">
+                    <div class="form-check mb-2">
+                      <a href="{% url 'tag_blogs' tag.slug %}">{{tag.title}}</a>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end row -->
+      </div>
+    </div>
+  </div>
+
+  {% endblock content %}
+</div>

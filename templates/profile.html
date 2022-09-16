@@ -1,0 +1,213 @@
+{% extends 'base.html'%}
+<!-- COMMENTS TO LOAD STATIC FILES -->
+{% load static %}
+<!-- COMMENTS FOR TIRLES -->
+{% block title %} Profile {% endblock title %}
+<!-- COMMENTS TO LOAD CONTENTS -->
+{% block content %}
+<!-- COMMENTS CONTENTS DETAILS -->
+
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+      <!-- {% include 'banner.html' %}
+       start page title -->
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-xl-4">
+                  <div class="product-detail">
+                    <div class="row">
+                      <div class="mt-4 mt-md-0 text-center">
+                        <img
+                          class="rounded-circle avatar-xl"
+                          src="{{request.user.get_profile_picture}}"
+                          alt="Profile"
+                        />
+                        <div class="mt-3">
+                          <div class="my-4 text-center">
+                            <p class="text-muted"></p>
+                            <button
+                              type="button"
+                              class="btn btn-warning waves-effect waves-light"
+                              data-bs-toggle="modal"
+                              data-bs-target=".bs-example-modal-center"
+                            >
+                              Update profile Picture
+                            </button>
+                          </div>
+
+                          <div
+                            class="modal fade bs-example-modal-center"
+                            tabindex="-1"
+                            role="dialog"
+                            aria-labelledby="mySmallModalLabel"
+                            aria-hidden="true"
+                          >
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title">
+                                    Update Profile Picture
+                                  </h5>
+                                  <button
+                                    type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div class="modal-body">
+                                  <form
+                                    method="POST"
+                                    action="{% url 'change_profile_picture' %}"
+                                    enctype="multipart/form-data"
+                                  >
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                      <input
+                                        class="form-control"
+                                        type="file"
+                                        name="profile_image"
+                                        required
+                                      />
+                                    </div>
+                                    <div class="form-group py-3">
+                                      <button
+                                        type="submit"
+                                        class="btn btn-success float-end"
+                                      >
+                                        <li class="fa fa-check"></li>
+                                        Save
+                                      </button>
+                                    </div>
+                                  </form>
+                                </div>
+                              </div>
+                              <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                          </div>
+                          <!-- /.modal -->
+                        </div>
+                        <div class="mt-3">
+                          <div class="py-2">
+                            <span
+                              >Posts:
+                              <strong
+                                >{{account.user_blogs.count}}</strong
+                              ></span
+                            >
+                          </div>
+                        </div>
+                        <div class="list-item text-center">
+                          <div class="list-item my-3">
+                            <a
+                              class="text-decoration-none"
+                              href="{% url 'add_blog' %}"
+                              >Add Blog</a
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end product img -->
+                </div>
+                <div class="col-xl-8">
+                  {% if messages%}
+                  <div>{% include 'message.html' %}</div>
+                  {% endif %}
+                  <form action="{%url 'profile'%}" class="px-4" method="POST">
+                    {% csrf_token %}
+                    <!---->
+                    {% if form.non_field_errors %}
+                    <!---->
+                    {% for error in form.non_field_errors %}
+                    <div
+                      class="alert alert-danger alert-dismissible fade show"
+                      role="alert"
+                    >
+                      {{error}}
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    {% endfor %}
+                    <!---->
+                    {% endif %}
+                    <div class="form-group">
+                      <label for="firstname">First Name </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="first_name"
+                        value="{{account.first_name}}"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="lasstname">Last Name </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="last_name"
+                        value="{{account.last_name}}"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="username">User Name </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="username"
+                        value="{{account.username}}"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="email">Email </label>
+                      <input
+                        type="email"
+                        class="form-control"
+                        value="{{account.email}}"
+                        name="email"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="new_password">New Password </label>
+                      <input
+                        type="password"
+                        class="form-control"
+                        name="new_password"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="confirm_password">Confirm Password </label>
+                      <input
+                        type="password"
+                        class="form-control"
+                        name="confirm_password"
+                      />
+                    </div>
+                    <div class="form-group mt-2">
+                      <button class="btn btn-info">Update</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <!-- end row -->
+
+              <!-- End Page-content -->
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endblock content %}
+    </div>
+  </div>
+</div>

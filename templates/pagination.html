@@ -1,0 +1,40 @@
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    {% if blogs.has_previous %}
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="?page={{blogs.previous_page_number}}"
+        aria-label="Previous"
+      >
+        <span aria-hidden="true">Previous</span>
+      </a>
+    </li>
+    {% endif %}
+    <!-- Comments-->
+    {% for page in blogs.paginator.page_range %}
+    <!-- Comments-->
+    {% if page == blogs.number %}
+    <li class="page-item active">
+      <a class="page-link" href="?page={{page}}">{{page}}</a>
+    </li>
+    {% else %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{page}}">{{page}}</a>
+    </li>
+    {% endif %} {% endfor %}
+    <!-- Blog Has Next Start Here -->
+    {% if blogs.has_next %}
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="?page={{blogs.next_page_number}}"
+        aria-label="Previous"
+      >
+        <span aria-hidden="true">Next</span>
+      </a>
+    </li>
+    {% endif %}
+    <!-- Blog Has Next END Here -->
+  </ul>
+</nav>

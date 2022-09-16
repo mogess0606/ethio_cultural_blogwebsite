@@ -1,0 +1,31 @@
+<div class="col-xl-3 col-sm-6" style="width: 250px">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <h4 class="form-label h5">Category</h4>
+        <hr />
+        {% for category in Categories %}
+        <div class="d-flex flex-wrap gap-3">
+          <div class="form-check mb-2">
+            <a href="{% url 'category_blogs' category.slug %}"
+              >{{category.title}}</a
+            >
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <hr />
+      <div class="row">
+        <h4 class="card-title">Tags</h4>
+        <hr />
+        {% for tag in tags %}
+        <div class="d-flex flex-wrap gap-3">
+          <div class="form-check mb-2">
+            <a href="{% url 'tag_blogs' tag.slug %}">{{tag.title}}</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+{% extends 'base.html'%}
+<!-- COMMENTS TO LOAD STATIC FILES -->
+{% load static %}
+<!-- COMMENTS FOR TIRLES -->
+{% block title %} Login {% endblock title %}
+<!-- COMMENTS TO LOAD CONTENTS -->
+{% block content %}
+<!-- COMMENTS CONTENTS DETAILS -->
+
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+      <!-- start page title -->
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 col-xl-5">
+          <div class="card overflow-hidden">
+            <div class="auth-logo text-center bg-info position-relative">
+              <div class="img-overlay"></div>
+              <div class="position-relative pt-3 py-3 mb-1">
+                <h1 class="text-white">Login</h1>
+              </div>
+            </div>
+            {% if messages%}
+            <div class="col-md-12 col-xl-12">{% include 'message.html' %}</div>
+            {% endif %}
+            <div class="card-body position-relative">
+              <form class="form-horizontal" action="#" method="POST" novalidate>
+                {% csrf_token %}
+                <div class="col-md-12 col-xl-12">
+                  <label for="username" class="form-label">Username</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="username"
+                    id="username_id"
+                    placeholder="Enter username"
+                  />
+                  <strong class="error py-1 text-danger"
+                    >{{form.username.errors}}</strong
+                  >
+                </div>
+
+                <div class="col-md-12 col-xl-12">
+                  <label for="password">Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password_id"
+                    name="password"
+                    placeholder="Enter password"
+                  />
+                  <strong class="error py-1 text-danger"
+                    >{{form.password.errors}}</strong
+                  >
+                </div>
+
+                <div class="form-check mt-3"></div>
+
+                <div class="btn-group col-md-12 col-xl-12">
+                  <button
+                    class="btn btn-success w-50 waves-effect waves-light"
+                    type="submit"
+                  >
+                    Login
+                  </button>
+                  <a
+                    href="{% url 'register' %}"
+                    class="btn btn-info w-50 waves-effect waves-light"
+                    style="color: white"
+                  >
+                    Register</a
+                  >
+                </div>
+
+                <div class="col-md-12 col-xl-12 text-center">
+                  <a href="#" class="text-muted"
+                    ><i class="mdi mdi-lock me-1"></i> Forgot your password?</a
+                  >
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endblock content %}
+</div>

@@ -1,0 +1,87 @@
+{% extends 'base.html'%}
+<!-- ============== -->
+{% load static %}
+<!-- ================== -->
+{% block title %} Blogs {% endblock title%}
+
+<!-- ================== -->
+{% block content %}
+
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+      <!-- {% include 'banner.html' %}
+       start page title -->
+
+      <div class="row">
+        <div class="col-xl-9 col-sm-6">
+          <div class="row">
+            {% for blog in blogs %}
+            <div class="col-xl-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="text-center">
+                    <img
+                      src="{{blog.banner.url}}"
+                      class="img-fluid"
+                      alt="Responsive image"
+                    />
+                    <div class="card-body">
+                      <h4 class="card-title">{{blog.category}}</h4>
+                      <a style="font-size: 10px">{{blog.title}}</a>
+                      <a style="font-size: 10px">By : {{blog.user.username}}</a>
+                      <a style="font-size: 10px">{{blog.created_date}}</a>
+                      <a style="font-size: 10px"
+                        >{{blog.blog_comments.all.count}} Comments</a
+                      >
+                      <hr />
+
+                      <p style="text-align: justify">{{blog.description}}</p>
+                    </div>
+                  </div>
+                  <div class="row" style="font-size: 11px">
+                    <div class="col-5">
+                      <ul class="post-tags float-lg-start">
+                        {% if blog.tags.all.count > 0 %}
+                        <!-- start page title -->
+                        {% for tags in blog.tags.all %}
+                        <li class="fa fa-tags">
+                          &nbsp; <a href="#">{{tags.title }}</a>
+                        </li>
+                        {% endfor %} {% else %} None {% endif %}
+                      </ul>
+                    </div>
+                    <div class="col-7">
+                      <ul class="post-share">
+                        <a class="fa fa-heart empty-heart"></a
+                        >&nbsp;&nbsp;&nbsp;&nbsp;
+                        <li class="fa fa-share-alt"></li>
+                        <a href="">&nbsp;&nbsp;Facebook</a>
+                        <a href="">&nbsp;&nbsp;Twitter</a>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- start page title -->
+        {% include 'right_sidebar.html' %}
+        <!-- start page title -->
+      </div>
+
+      <!-- End Page-content -->
+
+      <!-- end main content-->
+
+      <!-- end main content-->
+      {% endblock content %}
+    </div>
+  </div>
+</div>
