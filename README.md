@@ -1,4 +1,4 @@
-# ethio cultural blog website
+# Ethio cultural blog website
 
 How many people know that several of the world's modern-day practices began in Ethiopia? Drinking coffee and pan-Africanism, some even see Ethiopia as the birthplace of humanity. But what about Ethiopia and weed?
 
